@@ -1,18 +1,22 @@
-﻿const string rootFolder = @"/mnt/PersonalProjects/SpaceSaverBlog/Playground/";
+﻿const string rootFolder = "/mnt/PersonalProjects/SpaceSaverBlog/Playground/";
 
 var folderPatterns = new[] { "bin", "obj" };
 
-foreach (var folderPattern in folderPatterns)
-{
-  var foldersToDelete = Directory.EnumerateDirectories(
-    rootFolder,
-    folderPattern,
-    SearchOption.AllDirectories);
-
-  DeleteFolders(foldersToDelete);
-}
+DeleteFolders(
+  GetFoldersToDelete(rootFolder, folderPatterns)
+);
 
 return;
+
+static IEnumerable<string> GetFoldersToDelete(string rootFolder, IEnumerable<string> folderPatterns)
+  =>
+    folderPatterns.SelectMany(
+      folderPattern =>
+        Directory.EnumerateDirectories(
+          rootFolder,
+          folderPattern,
+          SearchOption.AllDirectories)
+    );
 
 static void DeleteFolders(IEnumerable<string> foldersToDelete)
 {
