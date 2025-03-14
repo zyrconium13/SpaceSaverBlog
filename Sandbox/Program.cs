@@ -20,10 +20,14 @@ static IEnumerable<string> GetFoldersToDelete(string rootFolder, IEnumerable<str
 
 static void DeleteFolders(IEnumerable<string> foldersToDelete)
 {
-  foreach (var folder in foldersToDelete)
-  {
-    Console.WriteLine($"Deleting folder {folder}...");
+  var logs = foldersToDelete.Select(DeleteFolder);
 
-    Directory.Delete(folder, true);
-  }
+  foreach (var log in logs) Console.WriteLine(log);
+}
+
+static string DeleteFolder(string folder)
+{
+  Directory.Delete(folder, true);
+
+  return $"Deleted folder {folder}.";
 }
