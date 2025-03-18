@@ -2,8 +2,9 @@
 
 var folderPatterns = new[] { "bin", "obj" };
 
-DeleteFolders(
-  GetFoldersToDelete(rootFolder, folderPatterns)
+WriteAllLogs(
+  DeleteAllFolders(
+    GetFoldersToDelete(rootFolder, folderPatterns))
 );
 
 return;
@@ -17,13 +18,6 @@ static IEnumerable<string> GetFoldersToDelete(string rootFolder, IEnumerable<str
           folderPattern,
           SearchOption.AllDirectories)
     );
-
-static void DeleteFolders(IEnumerable<string> foldersToDelete)
-{
-  WriteAllLogs(
-    DeleteAllFolders(foldersToDelete)
-  );
-}
 
 static string DeleteFolder(string folder)
 {
